@@ -80,8 +80,8 @@
               <value>${env-property}_custom_value</value>
             </replacement>
             <replacement>
-              <token>@@jvm_version@@</token>
-              <value>${custom_jvm_version}</value>
+              <token>@@repository_contributors@@</token>
+              <value>${repository_contributors}</value>
             </replacement>
           </replacements>
         </configuration>
