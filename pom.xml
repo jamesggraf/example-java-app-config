@@ -11,33 +11,18 @@
   <profiles>
     <profile>
       <id>dev</id>
-      <properties>
-        <environment>dev</environment>
-      </properties>
     </profile>
     <profile>
       <id>test</id>
-      <properties>
-        <environment>test</environment>
-      </properties>
     </profile>    
     <profile>
       <id>stage</id>
-      <properties>
-        <environment>stage</environment>
-      </properties>
     </profile>
     <profile>
       <id>preprod</id>
-      <properties>
-        <environment>preprod</environment>
-      </properties>
     </profile>
     <profile>
       <id>prod</id>
-      <properties>
-        <environment>prod</environment>
-      </properties>
     </profile>
   </profiles>
   <build>
@@ -47,7 +32,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <version>${assemblyVersion}</version>
         <configuration>
-          <descriptor>${assemblyConfigRoot}/${environment}.xml</descriptor>
+          <descriptor>${assemblyConfigRoot}/${project.activeProfiles[0].id}.xml</descriptor>
           <finalName>${project.artifactId}-${project.version}</finalName>
         </configuration>
         <executions>
