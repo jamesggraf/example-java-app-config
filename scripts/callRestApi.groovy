@@ -14,4 +14,4 @@ organization = github.getOrganization('SPSCommerce')
 allRepos = organization.getRepositories().collect{ it.getValue().getName() }
 ansibleRepos = allRepos.findAll{ it.startsWith('ansible') }
 
-project.properties['repository_contributors'] = ansibleRepos.join(',')
+project.properties['ansible_repos_from_rest_api'] = ansibleRepos.join(',')

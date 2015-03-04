@@ -43,6 +43,8 @@
   </profiles>
   <build>
     <plugins>
+    
+      <!-- This lets us run a Groovy script to populate properties we'll use in the configs -->
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
@@ -60,6 +62,8 @@
           </scripts>
         </configuration>
       </plugin>
+      
+      <!-- This replaces values in a configuration file. This can also be declared in the profile elements -->
       <plugin>
         <groupId>com.google.code.maven-replacer-plugin</groupId>
         <artifactId>replacer</artifactId>
@@ -80,12 +84,14 @@
               <value>${env-property}_custom_value</value>
             </replacement>
             <replacement>
-              <token>@@repository_contributors@@</token>
-              <value>${repository_contributors}</value>
+              <token>@@ansible_repos_from_rest_api@@</token>
+              <value>${ansible_repos_from_rest_api}</value>
             </replacement>
           </replacements>
         </configuration>
       </plugin>
+      
+      <!-- This packages the configurations into an artifact for release to Artifactory -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
