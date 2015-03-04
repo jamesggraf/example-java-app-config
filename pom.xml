@@ -51,8 +51,9 @@
         <version>1.4</version>
         <executions>
           <execution>
+            <phase>initialize</phase>
             <goals>
-              <goal>compile</goal>
+              <goal>execute</goal>
             </goals>
           </execution>
         </executions>
