@@ -6,27 +6,86 @@
   <version>0.0.1-SNAPSHOT</version>
   <properties>
     <assemblyVersion>2.5.3</assemblyVersion>
+    <replacerVersion>1.5.3</replacerVersion>
     <assemblyConfigRoot>assembly</assemblyConfigRoot>
   </properties>
   <profiles>
     <profile>
       <id>dev</id>
+      <properties>
+        <env-property>dev_value</env-property>
+      </properties>
     </profile>
     <profile>
       <id>test</id>
-    </profile>    
+      <properties>
+        <env-property>test_value</env-property>
+      </properties>
+    </profile>
     <profile>
       <id>stage</id>
+      <properties>
+        <env-property>stage_value</env-property>
+      </properties>
     </profile>
     <profile>
       <id>preprod</id>
+      <properties>
+        <env-property>preprod_value</env-property>
+      </properties>
     </profile>
     <profile>
       <id>prod</id>
+      <properties>
+        <env-property>prod_value</env-property>
+      </properties>
     </profile>
   </profiles>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <scripts>
+            <script>file:///${project.basedir}/scripts/callRestApi.groovy</script>
+          </scripts>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>${replacerVersion}</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <file>${project.activeProfiles[0].id}/Application.properties</file>
+          <replacements>
+            <replacement>
+              <token>@@dynamic.property.value@@</token>
+              <value>${env-property}_custom_value</value>
+            </replacement>
+            <replacement>
+              <token>@@jvm_version@@</token>
+              <value>${custom_jvm_version}</value>
+            </replacement>
+          </replacements>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -46,4 +105,11 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+  </dependencies>
 </project>
