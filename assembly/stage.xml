@@ -9,8 +9,8 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>${basedir}/stage</directory>
-      <outputDirectory>/</outputDirectory>
+      <directory>${basedir}/target/configs</directory>
+      <outputDirectory></outputDirectory>
       <includes>
         <include>**</include>
       </includes>

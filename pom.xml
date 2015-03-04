@@ -7,6 +7,7 @@
   <properties>
     <assemblyVersion>2.5.3</assemblyVersion>
     <replacerVersion>1.5.3</replacerVersion>
+    <resourcesVersion>2.7</resourcesVersion>
     <assemblyConfigRoot>assembly</assemblyConfigRoot>
   </properties>
   <profiles>
@@ -43,8 +44,31 @@
   </profiles>
   <build>
     <plugins>
-    
-      <!-- This lets us run a Groovy script to populate properties we'll use in the configs -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${resourcesVersion}</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/configs</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/${project.activeProfiles[0].id}</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- This lets us run a Groovy script to populate properties we'll 
+        use in the configs -->
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
@@ -63,8 +87,9 @@
           </scripts>
         </configuration>
       </plugin>
-      
-      <!-- This replaces values in a configuration file. This can also be declared in the profile elements -->
+
+      <!-- This replaces values in a configuration file. This can also be 
+        declared in the profile elements -->
       <plugin>
         <groupId>com.google.code.maven-replacer-plugin</groupId>
         <artifactId>replacer</artifactId>
@@ -91,8 +116,9 @@
           </replacements>
         </configuration>
       </plugin>
-      
-      <!-- This packages the configurations into an artifact for release to Artifactory -->
+
+      <!-- This packages the configurations into an artifact for release 
+        to Artifactory -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
