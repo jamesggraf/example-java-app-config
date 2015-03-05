@@ -85,7 +85,7 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:git:ssh://git@github.com:jamesggraf/example-java-app-config</connection>
+    <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
     <tag>${project.artifactId}-0.0.0-${project.activeProfiles[0].id}</tag>
   </scm>
   <build>
