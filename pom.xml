@@ -1,115 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>spscommerce.techops</groupId>
   <artifactId>example-java-app-config</artifactId>
   <version>0.0.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <properties>
-    <assemblyPluginVersion>2.5.3</assemblyPluginVersion>
-    <replacerPluginVersion>1.5.3</replacerPluginVersion>
     <resourcesPluginVersion>2.7</resourcesPluginVersion>
-    <releasePluginVersion>2.5.1</releasePluginVersion>
-    <assemblyConfigRoot>assembly</assemblyConfigRoot>
-    <workingDirectory>${basedir}/target/configs</workingDirectory>
-    <devReleaseRepo>dev-libs-releases-local</devReleaseRepo>
-    <testReleaseRepo>test-libs-releases-local</testReleaseRepo>
-    <stageReleaseRepo>stage-libs-releases-local</stageReleaseRepo>
-    <preprodReleaseRepo>preprod-libs-releases-local</preprodReleaseRepo>
-    <prodReleaseRepo>prod-libs-releases-local</prodReleaseRepo>
+    <replacerPluginVersion>1.5.3</replacerPluginVersion>
+    <workingDirectory>target/configs</workingDirectory>
+    <main.basedir>${project.basedir}</main.basedir>
   </properties>
-  <profiles>
-    <profile>
-      <id>dev</id>
-      <properties>
-        <env-property>dev_value</env-property>
-      </properties>
-      <distributionManagement>
-        <repository>
-          <id>dev-releases</id>
-          <name>development repository</name>
-          <url>https://spscommerceinc.artifactoryonline.com/spscommerceinc/${devReleaseRepo}</url>
-        </repository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>test</id>
-      <properties>
-        <env-property>test_value</env-property>
-      </properties>
-      <distributionManagement>
-        <repository>
-          <id>test-releases</id>
-          <name>test repository</name>
-          <url>https://spscommerceinc.artifactoryonline.com/spscommerceinc/${testReleaseRepo}</url>
-        </repository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>stage</id>
-      <properties>
-        <env-property>stage_value</env-property>
-      </properties>
-      <distributionManagement>
-        <repository>
-          <id>stage-releases</id>
-          <name>stage repository</name>
-          <url>https://spscommerceinc.artifactoryonline.com/spscommerceinc/${stageReleaseRepo}</url>
-        </repository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>preprod</id>
-      <properties>
-        <env-property>preprod_value</env-property>
-      </properties>
-      <distributionManagement>
-        <repository>
-          <id>preprod-releases</id>
-          <name>preprod repository</name>
-          <url>https://spscommerceinc.artifactoryonline.com/spscommerceinc/${preprodReleaseRepo}</url>
-        </repository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>prod</id>
-      <properties>
-        <env-property>prod_value</env-property>
-      </properties>
-      <distributionManagement>
-        <repository>
-          <id>prod-releases</id>
-          <name>prod repository</name>
-          <url>https://spscommerceinc.artifactoryonline.com/spscommerceinc/${prodReleaseRepo}</url>
-        </repository>
-      </distributionManagement>
-    </profile>
-  </profiles>
-  <scm>
-    <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
-    <tag>${project.artifactId}-0.0.0-${project.activeProfiles[0].id}</tag>
-  </scm>
   <build>
     <plugins>
+      <!-- Skip the JAR creation -->
       <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>${resourcesPluginVersion}</version>
-        <executions>
-          <execution>
-            <id>copy-resources</id>
-            <!-- here the phase you need -->
-            <phase>validate</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${workingDirectory}</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}/${project.activeProfiles[0].id}</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <skipIfEmpty>true</skipIfEmpty>
+        </configuration>
       </plugin>
 
       <!-- This lets us run a Groovy script to populate properties we'll 
@@ -120,7 +31,7 @@
         <version>1.4</version>
         <executions>
           <execution>
-            <phase>initialize</phase>
+            <phase>process-resources</phase>
             <goals>
               <goal>execute</goal>
             </goals>
@@ -128,78 +39,16 @@
         </executions>
         <configuration>
           <scripts>
-            <script>file:///${project.basedir}/scripts/callRestApi.groovy</script>
+            <script>file:///${main.basedir}/scripts/callRestApi.groovy</script>
           </scripts>
         </configuration>
       </plugin>
 
-      <!-- This replaces values in a configuration file. This can also be 
-        declared in the profile elements -->
-      <plugin>
-        <groupId>com.google.code.maven-replacer-plugin</groupId>
-        <artifactId>replacer</artifactId>
-        <version>${replacerPluginVersion}</version>
-        <executions>
-          <execution>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>replace</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <file>${workingDirectory}/Application.properties</file>
-          <replacements>
-            <replacement>
-              <token>@@dynamic.property.value@@</token>
-              <value>${env-property}_custom_value</value>
-            </replacement>
-            <replacement>
-              <token>@@ansible_repos_from_rest_api@@</token>
-              <value>${ansible_repos_from_rest_api}</value>
-            </replacement>
-          </replacements>
-        </configuration>
-      </plugin>
-
-      <!-- This packages the configurations into an artifact for release 
-        to Artifactory -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>${assemblyPluginVersion}</version>
-        <configuration>
-          <descriptor>${assemblyConfigRoot}/${project.activeProfiles[0].id}.xml</descriptor>
-          <finalName>${project.artifactId}-${project.version}</finalName>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Release the artifacts -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${releasePluginVersion}</version>
-      </plugin>
-
-      <!-- Skip the JAR creation -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <skipIfEmpty>true</skipIfEmpty>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
+  <modules>
+    <module>dev</module>
+  </modules>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>

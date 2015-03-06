@@ -1,0 +1,73 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>example-java-app-config-dev</artifactId>
+  <parent>
+    <groupId>spscommerce.techops</groupId>
+    <artifactId>example-java-app-config</artifactId>
+    <relativePath>../pom.xml</relativePath>
+    <version>0.0.2-SNAPSHOT</version>
+  </parent>
+  <properties>
+    <main.basedir>${project.parent.basedir}</main.basedir>
+    <environment>dev</environment>
+    <env-property>dev_property</env-property>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${resourcesPluginVersion}</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/${workingDirectory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}</directory>
+                  <excludes>
+                    <exclude>pom.xml</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- This replaces values in a configuration file. This can also be 
+        declared in the profile elements -->
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>${replacerPluginVersion}</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <file>${basedir}/${workingDirectory}/Application.properties</file>
+          <replacements>
+            <replacement>
+              <token>@@dynamic.property.value@@</token>
+              <value>${env-property}_custom_value</value>
+            </replacement>
+            <replacement>
+              <token>@@ansible_repos_from_rest_api@@</token>
+              <value>${ansible_repos_from_rest_api}</value>
+            </replacement>
+          </replacements>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
