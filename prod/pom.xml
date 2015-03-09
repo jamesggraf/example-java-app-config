@@ -2,7 +2,7 @@
   <groupId>spscommerce.techops</groupId>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>example-java-app-config-prod</artifactId>
-  <version>0.0.11</version>
+  <version>0.0.12-SNAPSHOT</version>
   <properties>
     <environment>prod</environment>
     <env-property>prod_property</env-property>
@@ -15,7 +15,7 @@
   </properties>
   <scm>
     <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
-    <tag>example-java-app-config-prod-0.0.11-SNAPSHOT</tag>
+    <tag>example-java-app-config-dev-${project.version}</tag>
   </scm>
   <distributionManagement>
     <repository>
