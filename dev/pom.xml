@@ -2,7 +2,7 @@
   <groupId>spscommerce.techops</groupId>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>example-java-app-config</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.3</version>
   <properties>
     <assemblyPluginVersion>2.5.3</assemblyPluginVersion>
     <releasePluginVersion>2.5.1</releasePluginVersion>
@@ -15,7 +15,7 @@
   </properties>
   <scm>
     <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
-    <tag>example-java-app-config-dev-@{project.version}</tag>
+    <tag>example-java-app-config-dev-0.0.3</tag>
   </scm>
   <distributionManagement>
     <repository>
