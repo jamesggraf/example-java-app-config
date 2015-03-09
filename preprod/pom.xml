@@ -4,8 +4,8 @@
   <artifactId>example-java-app-config</artifactId>
   <version>0.0.6-SNAPSHOT</version>
   <properties>
-    <environment>dev</environment>
-    <env-property>dev_property</env-property>
+    <environment>preprod</environment>
+    <env-property>preprod_property</env-property>
     <assemblyPluginVersion>2.5.3</assemblyPluginVersion>
     <releasePluginVersion>2.5.1</releasePluginVersion>
     <resourcesPluginVersion>2.7</resourcesPluginVersion>

@@ -2,16 +2,16 @@
   <groupId>spscommerce.techops</groupId>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>example-java-app-config</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.6-SNAPSHOT</version>
   <properties>
+    <environment>test</environment>
+    <env-property>test_property</env-property>
     <assemblyPluginVersion>2.5.3</assemblyPluginVersion>
     <releasePluginVersion>2.5.1</releasePluginVersion>
     <resourcesPluginVersion>2.7</resourcesPluginVersion>
     <replacerPluginVersion>1.5.3</replacerPluginVersion>
-    <workingDirectory>target/configs</workingDirectory>
+    <workingDirectory>${project.basedir}/target/configs</workingDirectory>
     <scripts.basedir>${project.basedir}/../scripts</scripts.basedir>
-    <environment>test</environment>
-    <env-property>test_property</env-property>
   </properties>
   <scm>
     <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
@@ -38,10 +38,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/${workingDirectory}</outputDirectory>
+              <outputDirectory>${workingDirectory}</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${basedir}</directory>
+                  <directory>${project.basedir}</directory>
                   <excludes>
                     <exclude>pom.xml</exclude>
                     <exclude>assembly.xml</exclude>
@@ -91,7 +91,7 @@
           </execution>
         </executions>
         <configuration>
-          <file>${basedir}/${workingDirectory}/Application.properties</file>
+          <file>${workingDirectory}/Application.properties</file>
           <replacements>
             <replacement>
               <token>@@dynamic.property.value@@</token>
