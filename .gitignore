@@ -8,3 +8,5 @@ stage/target
 preprod/target
 prod/target
 **/.keep
+**/pom.xml.releaseBackup
+release.properties
