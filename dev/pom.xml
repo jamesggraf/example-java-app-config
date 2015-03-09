@@ -1,14 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <groupId>spscommerce.techops</groupId>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>example-java-app-config-dev</artifactId>
-  <parent>
-    <groupId>spscommerce.techops</groupId>
-    <artifactId>example-java-app-config</artifactId>
-    <relativePath>../pom.xml</relativePath>
-    <version>0.0.4-SNAPSHOT</version>
-  </parent>
+  <artifactId>example-java-app-config</artifactId>
+  <version>0.0.4-SNAPSHOT</version>
   <properties>
-    <main.basedir>${project.parent.basedir}</main.basedir>
+    <assemblyPluginVersion>2.5.3</assemblyPluginVersion>
+    <releasePluginVersion>2.5.1</releasePluginVersion>
+    <resourcesPluginVersion>2.7</resourcesPluginVersion>
+    <replacerPluginVersion>1.5.3</replacerPluginVersion>
+    <workingDirectory>target/configs</workingDirectory>
+    <scripts.basedir>${project.basedir}/../scripts</scripts.basedir>
     <environment>dev</environment>
     <env-property>dev_property</env-property>
   </properties>
@@ -54,6 +56,27 @@
         </executions>
       </plugin>
 
+      <!-- This lets us run a Groovy script to populate properties we'll 
+        use in the configs -->
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <scripts>
+            <script>file:///${scripts.basedir}/callRestApi.groovy</script>
+          </scripts>
+        </configuration>
+      </plugin>
+
       <!-- This replaces values in a configuration file. This can also be 
         declared in the profile elements -->
       <plugin>
@@ -89,7 +112,7 @@
         <configuration>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptor>assembly.xml</descriptor>
-          <finalName>${project.parent.artifactId}-${project.version}</finalName>
+          <finalName>${project.artifactId}-${project.version}</finalName>
         </configuration>
         <executions>
           <execution>
@@ -105,9 +128,26 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>${releasePluginVersion}</version>
         <configuration>
-          <tagNameFormat>@{project.parent.artifactId}-${environment}-@{project.parent.version}</tagNameFormat>
+          <tagNameFormat>@{project.artifactId}-${environment}-@{project.parent.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+
+      <!-- Skip the JAR creation -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <skipIfEmpty>true</skipIfEmpty>
         </configuration>
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+  </dependencies>
 </project>
