@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <groupId>spscommerce.techops</groupId>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>example-java-app-config</artifactId>
-  <version>0.0.6-SNAPSHOT</version>
+  <artifactId>example-java-app-config-preprod</artifactId>
+  <version>0.0.11-SNAPSHOT</version>
   <properties>
     <environment>preprod</environment>
     <env-property>preprod_property</env-property>
@@ -15,7 +15,7 @@
   </properties>
   <scm>
     <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
-    <tag>example-java-app-config-dev-@{project.version}</tag>
+    <tag>example-java-app-config-dev-${project.version}</tag>
   </scm>
   <distributionManagement>
     <repository>
@@ -127,7 +127,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>${releasePluginVersion}</version>
         <configuration>
-          <tagNameFormat>@{project.artifactId}-${environment}-@{project.version}</tagNameFormat>
+          <tagNameFormat>@{project.artifactId}-${project.version}</tagNameFormat>
         </configuration>
       </plugin>
 
