@@ -5,7 +5,7 @@
     <groupId>spscommerce.techops</groupId>
     <artifactId>example-java-app-config</artifactId>
     <relativePath>../pom.xml</relativePath>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
   </parent>
   <properties>
     <main.basedir>${project.parent.basedir}</main.basedir>
