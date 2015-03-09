@@ -6,11 +6,17 @@
   <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
+    <assemblyPluginVersion>2.5.3</assemblyPluginVersion>
+    <releasePluginVersion>2.5.1</releasePluginVersion>
     <resourcesPluginVersion>2.7</resourcesPluginVersion>
     <replacerPluginVersion>1.5.3</replacerPluginVersion>
     <workingDirectory>target/configs</workingDirectory>
     <main.basedir>${project.basedir}</main.basedir>
   </properties>
+  <scm>
+    <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
+    <tag>${project.artifactId}-0.0.0</tag>
+  </scm>
   <build>
     <plugins>
       <!-- Skip the JAR creation -->
@@ -48,6 +54,7 @@
   </build>
   <modules>
     <module>dev</module>
+    <module>test</module>
   </modules>
   <dependencies>
     <dependency>

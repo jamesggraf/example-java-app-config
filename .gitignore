@@ -2,3 +2,9 @@
 .project
 .classpath
 .settings
+dev/target
+test/target
+stage/target
+preprod/target
+prod/target
+**/.keep

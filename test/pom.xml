@@ -1,6 +1,6 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>example-java-app-config-dev</artifactId>
+  <artifactId>example-java-app-config-test</artifactId>
   <parent>
     <groupId>spscommerce.techops</groupId>
     <artifactId>example-java-app-config</artifactId>
@@ -9,8 +9,8 @@
   </parent>
   <properties>
     <main.basedir>${project.parent.basedir}</main.basedir>
-    <environment>dev</environment>
-    <env-property>dev_property</env-property>
+    <environment>test</environment>
+    <env-property>test_property</env-property>
   </properties>
   <scm>
     <connection>scm:git:ssh://git@github.com/jamesggraf/example-java-app-config</connection>
