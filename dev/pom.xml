@@ -8,7 +8,7 @@
     <releasePluginVersion>2.5.1</releasePluginVersion>
     <resourcesPluginVersion>2.7</resourcesPluginVersion>
     <replacerPluginVersion>1.5.3</replacerPluginVersion>
-    <workingDirectory>target/configs</workingDirectory>
+    <workingDirectory>${project.basedir}/target/configs</workingDirectory>
     <scripts.basedir>${project.basedir}/../scripts</scripts.basedir>
     <environment>dev</environment>
     <env-property>dev_property</env-property>
@@ -38,10 +38,10 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/${workingDirectory}</outputDirectory>
+              <outputDirectory>${workingDirectory}</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${basedir}</directory>
+                  <directory>${project.basedir}</directory>
                   <excludes>
                     <exclude>pom.xml</exclude>
                     <exclude>assembly.xml</exclude>
@@ -91,7 +91,7 @@
           </execution>
         </executions>
         <configuration>
-          <file>${basedir}/${workingDirectory}/Application.properties</file>
+          <file>${workingDirectory}/Application.properties</file>
           <replacements>
             <replacement>
               <token>@@dynamic.property.value@@</token>
